@@ -20,7 +20,7 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     name: String, balance: Number
 }));
 ```
-### - simple
+### ● simple
 ```javascript
 const ACID = require('mongoose-acid');
 
@@ -37,7 +37,7 @@ const ACID = require('mongoose-acid');
 })();
 ```
 
-### - gets the value of the previous operation
+### ● gets the value of the previous operation
 ```javascript
 const ACID = require('mongoose-acid');
 
@@ -56,7 +56,7 @@ const ACID = require('mongoose-acid');
 })();
 ```
 
-### - error handling (one)
+### ● error handling (one)
 ```javascript
 const ACID = require('mongoose-acid');
 
@@ -80,7 +80,7 @@ const ACID = require('mongoose-acid');
 })();
 ```
 
-### - error handling (two)
+### ● error handling (two)
 ```javascript
 const ACID = require('mongoose-acid');
 
@@ -103,7 +103,7 @@ const ACID = require('mongoose-acid');
 })();
 ```
 
-### - not when mongoose query
+### ● not when mongoose query
 ```javascript
 const ACID = require('mongoose-acid');
 
@@ -124,7 +124,7 @@ const ACID = require('mongoose-acid');
 })();
 ```
 
-### - Model.create (because `Model.create` returns a Promise, there's no way to inject it)
+### ● Model.create (because `Model.create` returns a Promise, there's no way to inject it)
 ```javascript
 const ACID = require('mongoose-acid');
 
