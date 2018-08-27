@@ -46,10 +46,30 @@ const TEST_CASES = {
             .exec();
 
         await conn.disconnect();
+    },
+    create: async () => {
+        const conn = await mongoose.connect(uri, {
+            replicaSet: 'app',
+            useNewUrlParser: true
+        });
+        await ACID.make()
+            .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: -10 } }, { new: true }))
+            .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: +10 } }, { new: true }))
+            .add((b, all) => {
+                return Account.findOneAndUpdate({ name: 'C' }, { $inc: { balance: +b.balance } }, { new: true });
+            })
+            .add((a, all, session) => {
+                return Account.create([{ name: 'E', balance: 5 }, { name: 'F', balance: 10 }], { session });
+            })
+            .exec();
+        console.log('test passed.');
+        await conn.disconnect();
     }
 };
 
 
 // TEST_CASES.init();
 // TEST_CASES.simple();
-TEST_CASES.error();
+// TEST_CASES.error();
+
+TEST_CASES.create();

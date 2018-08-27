@@ -37,14 +37,20 @@ class ACID {
                     transaction.options.session = session;
                     let result = await transaction;
                     this._results.push(result);
-                }
-                // is a pre function
-                else {
-                    let preTransaction = transaction(this._results[i - 1], this._results);
+                } else {
+                    // is a pre function
+                    let preTransaction = transaction(this._results[i - 1], this._results, session);
                     if (preTransaction && mongoose.Query == preTransaction.constructor) {
                         preTransaction.options.session = session;
                         let result = await preTransaction;
                         this._results.push(result);
+                    }
+                    // is a promise
+                    else {
+                        if (mongoose.Promise == preTransaction.constructor) {
+                            let result = await preTransaction;
+                            this._results.push(result);
+                        }
                     }
                 }
             }
