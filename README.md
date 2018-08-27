@@ -1,5 +1,5 @@
 # mongoose-acid
-:sunglasses: a api friendly mongoose transaction tool (you don't need to set the session option, I've injected it for you)
+:sunglasses: a api friendly mongoose transaction tool **(you don't need to set the session option, I've injected it for you)**
 
 # install 
 ```
