@@ -1,0 +1,27 @@
+{
+  "name": "mongoose-acid",
+  "version": "0.0.1",
+  "description": "a api friendly mongoose transaction tool ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dtboy1995/mongoose-acid.git"
+  },
+  "keywords": [
+    "acid",
+    "transaction",
+    "mongoose",
+    "mongodb",
+    "api",
+    "tool"
+  ],
+  "author": "dtboy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dtboy1995/mongoose-acid/issues"
+  },
+  "homepage": "https://github.com/dtboy1995/mongoose-acid#readme"
+}
