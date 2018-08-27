@@ -4,7 +4,7 @@
   "description": "a api friendly mongoose transaction tool ",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'no tests'"
+    "test": "echo -1"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/dtboy1995/mongoose-acid/issues"
   },
-  "homepage": "https://github.com/dtboy1995/mongoose-acid#readme"
+  "homepage": "https://github.com/dtboy1995/mongoose-acid#readme",
+  "dependencies": {
+    "mongoose": "^5.2.9"
+  }
 }

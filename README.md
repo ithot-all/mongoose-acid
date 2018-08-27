@@ -31,6 +31,7 @@ const ACID = require('mongoose-acid');
         .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
         .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
         .exec();
+    await conn.disconnect();
 })();
 ```
 
@@ -49,6 +50,7 @@ const ACID = require('mongoose-acid');
             return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
         })
         .exec();
+    await conn.disconnect();
 })();
 ```
 
@@ -72,6 +74,7 @@ const ACID = require('mongoose-acid');
     } catch(err) {
 
     }
+     await conn.disconnect();
 })();
 ```
 
@@ -93,7 +96,8 @@ const ACID = require('mongoose-acid');
         .error((err) => {
 
         })
-        .exec()
+        .exec();
+     await conn.disconnect();
 })();
 ```
 
@@ -113,6 +117,9 @@ const ACID = require('mongoose-acid');
             let a = all[0];
             let b = all[1];
         })
-        .exec()
+        .exec();
+     await conn.disconnect();
 })();
 ```
+
+> welcome to improve the library [issue](https://github.com/dtboy1995/mongoose-acid/issues)
