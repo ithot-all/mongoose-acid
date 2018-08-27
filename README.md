@@ -1,5 +1,5 @@
 # mongoose-acid
-:sunglasses: a api friendly mongoose transaction tool 
+:sunglasses: a api friendly mongoose transaction tool (you don't need to set the session option, I've injected it for you)
 
 # install 
 ```
@@ -31,5 +31,88 @@ const ACID = require('mongoose-acid');
         .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
         .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
         .exec();
+})();
+```
+
+- ### gets the value of the previous operation
+```javascript
+const ACID = require('mongoose-acid');
+
+(async () => {
+    const conn = await mongoose.connect(uri, {
+        replicaSet: 'app',
+        useNewUrlParser: true
+    });
+    await ACID.make()
+        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+        .add((a) => {
+            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+        })
+        .exec();
+})();
+```
+
+- ### error handling (one)
+```javascript
+const ACID = require('mongoose-acid');
+
+(async () => {
+    const conn = await mongoose.connect(uri, {
+        replicaSet: 'app',
+        useNewUrlParser: true
+    });
+    try{
+         await ACID.make()
+        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+        .add((a) => {
+            throw new Error();
+            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+        })
+        .exec()
+    } catch(err) {
+
+    }
+})();
+```
+
+- ### error handling (two)
+```javascript
+const ACID = require('mongoose-acid');
+
+(async () => {
+    const conn = await mongoose.connect(uri, {
+        replicaSet: 'app',
+        useNewUrlParser: true
+    });
+    await ACID.make()
+        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+        .add((a) => {
+            throw new Error();
+            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+        })
+        .error((err) => {
+
+        })
+        .exec()
+})();
+```
+
+- ### not when mongoose query
+```javascript
+const ACID = require('mongoose-acid');
+
+(async () => {
+    const conn = await mongoose.connect(uri, {
+        replicaSet: 'app',
+        useNewUrlParser: true
+    });
+    await ACID.make()
+        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+        .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
+        .add((b, all) => {
+            let a = all[0];
+            let b = all[1];
+        })
+        .exec()
 })();
 ```

@@ -40,7 +40,7 @@ class ACID {
                 }
                 // is a pre function
                 else {
-                    let preTransaction = transaction(this._results[i - 1]);
+                    let preTransaction = transaction(this._results[i - 1], this._results);
                     if (preTransaction && mongoose.Query == preTransaction.constructor) {
                         preTransaction.options.session = session;
                         let result = await preTransaction;
