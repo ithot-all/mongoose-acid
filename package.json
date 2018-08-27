@@ -4,7 +4,7 @@
   "description": "a api friendly mongoose transaction tool ",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "echo 'no tests'"
   },
   "repository": {
     "type": "git",
