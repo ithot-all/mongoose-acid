@@ -5,7 +5,7 @@
 
 # install 
 ```
-npm install mongoose-acid --save
+~~npm install mongoose-acid --save~~
 ```
 
 # required
