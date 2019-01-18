@@ -20,128 +20,80 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     name: String, balance: Number
 }));
 ```
-- ### simple
+### simple
 ```javascript
 const ACID = require('mongoose-acid');
-
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
-        .exec();
-    await conn.disconnect();
-})();
+await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
+    .exec();
 ```
 
-- ### gets the value of the previous operation
+### gets the value of the previous operation
 ```javascript
 const ACID = require('mongoose-acid');
-
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add((a) => {
-            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
-        })
-        .exec();
-    await conn.disconnect();
-})();
+await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add((a) => {
+        return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+    })
+    .exec();
 ```
 
-- ### error handling (one)
+### error handling (one)
 ```javascript
 const ACID = require('mongoose-acid');
+try{
+     await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add((a) => {
+        throw new Error();
+        return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+    })
+    .exec()
+} catch(err) {
 
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    try{
-         await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add((a) => {
-            throw new Error();
-            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
-        })
-        .exec()
-    } catch(err) {
-
-    }
-     await conn.disconnect();
-})();
+}
 ```
 
-- ### error handling (two)
+### error handling (two)
 ```javascript
 const ACID = require('mongoose-acid');
+await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add((a) => {
+        throw new Error();
+        return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
+    })
+    .error((err) => {
 
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add((a) => {
-            throw new Error();
-            return Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: a.balance } })
-        })
-        .error((err) => {
-
-        })
-        .exec();
-     await conn.disconnect();
-})();
+    })
+    .exec();
 ```
 
-- ### not when mongoose query
+### not when mongoose query
 ```javascript
 const ACID = require('mongoose-acid');
-
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
-        .add((b, all) => {
-            let a = all[0];
-            let b = all[1];
-        })
-        .exec();
-     await conn.disconnect();
-})();
+await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }))
+    .add((b, all) => {
+        let a = all[0];
+        let b = all[1];
+    })
+    .exec();
 ```
 
-- ### return to the promise operation (like `Model.create` return a Promise, there's no way to inject it)
+### return to the promise operation (like `Model.create` return a Promise, there's no way to inject it)
 ```javascript
 const ACID = require('mongoose-acid');
-
-(async () => {
-    const conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
-        useNewUrlParser: true
-    });
-    await ACID.make()
-        .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
-        .add((a, all, session) => {
-            return Account.create([{ name: 'C', balance: 5 }, { name: 'D', balance: 10 }], { session });
-        })
-        .exec();
-     await conn.disconnect();
-})();
+await ACID.make()
+    .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }))
+    .add((a, all, session) => {
+        return Account.create([{ name: 'C', balance: 5 }, { name: 'D', balance: 10 }], { session });
+    })
+    .exec();
 ```
 
-# contribute
+### contribute
 > welcome to improve the library [issue](https://github.com/dtboy1995/mongoose-acid/issues)
