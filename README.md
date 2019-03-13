@@ -3,16 +3,17 @@
 # mongoose-acid
 :sunglasses: a api friendly mongoose transaction tool **(you don't need to set the session option, I've injected it for you)**
 
-# install 
+### install 
 ```
 npm install mongoose-acid --save
 ```
 
-# required
+### required
 
 > nodejs >= 7.6 | mongoose >= 5.2 | mongodb >= 4.0
 
-# usage
+### usage
+
 ```javascript
 const mongoose = require('mongoose');
 const uri = 'mongodb://localhost:27111,localhost:27112,localhost:27113/test';
@@ -20,7 +21,7 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     name: String, balance: Number
 }));
 ```
-### simple
+## simple
 ```javascript
 const ACID = require('mongoose-acid');
 await ACID.make()
@@ -29,7 +30,7 @@ await ACID.make()
     .exec();
 ```
 
-### gets the value of the previous operation
+## gets the value of the previous operation
 ```javascript
 const ACID = require('mongoose-acid');
 await ACID.make()
@@ -40,7 +41,7 @@ await ACID.make()
     .exec();
 ```
 
-### error handling (one)
+## error handling
 ```javascript
 const ACID = require('mongoose-acid');
 try{
@@ -56,7 +57,7 @@ try{
 }
 ```
 
-### error handling (two)
+## error handling
 ```javascript
 const ACID = require('mongoose-acid');
 await ACID.make()
@@ -71,7 +72,7 @@ await ACID.make()
     .exec();
 ```
 
-### not when mongoose query
+## not when mongoose query
 ```javascript
 const ACID = require('mongoose-acid');
 await ACID.make()
@@ -84,7 +85,7 @@ await ACID.make()
     .exec();
 ```
 
-### return to the promise operation (like `Model.create` return a Promise, there's no way to inject it)
+## return to the promise operation (like `Model.create` return a Promise, there's no way to inject it)
 ```javascript
 const ACID = require('mongoose-acid');
 await ACID.make()
@@ -94,6 +95,3 @@ await ACID.make()
     })
     .exec();
 ```
-
-### contribute
-> welcome to improve the library [issue](https://github.com/dtboy1995/mongoose-acid/issues)
