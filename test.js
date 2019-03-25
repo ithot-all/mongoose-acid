@@ -1,72 +1,38 @@
 const assert = require('assert');
 const mongoose = require('mongoose')
-const uri = 'mongodb://localhost:27111,localhost:27112,localhost:27113/ithot'
 
+// console.log(mongoose.Document.prototype);
 const Account = mongoose.model('Account', new mongoose.Schema({
     name: String, balance: Number
 }));
 
-const ACID = require('./');
+const start = async function () {
+    const uri = 'mongodb://localhost/ithot'
 
-const TEST_CASES = {
-    init: async () => {
-        await Account.create([{ name: 'A', balance: 5 }, { name: 'B', balance: 10 }]);
-        console.log('accounts ready');
-    },
-    simple: async () => {
-        const conn = await mongoose.connect(uri, {
-            replicaSet: 'app',
-            useNewUrlParser: true
-        });
-        await ACID.make()
-            .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }, { new: true }))
-            .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }, { new: true }))
-            .add((b, all) => {
-                assert.equal(all[0].balance, 10);
-            })
-            .exec();
+    const conn = await mongoose.connect(uri, {
+        useNewUrlParser: true
+    })
 
-        await conn.disconnect();
-        console.log('test pass');
-    },
-    error: async () => {
-        const conn = await mongoose.connect(uri, {
-            replicaSet: 'app',
-            useNewUrlParser: true
-        });
-        await ACID.make()
-            .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: +5 } }, { new: true }))
-            .add(() => {
-                throw new Error();
-                Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: -5 } }, { new: true })
-            })
-            .error((err) => {
-                console.log('error happened, test pass');
-            })
-            .exec();
+    // let a = await Account.create({name: 1})
+    // console.log(a.save);
+    // console.log(a.remove);
 
-        await conn.disconnect();
-    },
-    create: async () => {
-        const conn = await mongoose.connect(uri, {
-            replicaSet: 'app',
-            useNewUrlParser: true
-        });
-        await ACID.make()
-            .add(Account.findOneAndUpdate({ name: 'A' }, { $inc: { balance: -10 } }, { new: true }))
-            .add(Account.findOneAndUpdate({ name: 'B' }, { $inc: { balance: +10 } }, { new: true }))
-            .add((b, all) => {
-                return Account.findOneAndUpdate({ name: 'C' }, { $inc: { balance: +b.balance } }, { new: true });
-            })
-            .add((a, all, session) => {
-                return Account.create([{ name: 'E', balance: 5 }, { name: 'F', balance: 10 }], { session });
-            })
-            .exec();
-        console.log('test passed.');
-        await conn.disconnect();
-    }
-};
-// TEST_CASES.init();
-// TEST_CASES.simple();
-// TEST_CASES.error();
-// TEST_CASES.create();
+    // console.log(mongoose.Model.prototype.save);
+    // console.log(mongoose.Model.prototype.remove);
+
+    // console.log(a.save === mongoose.Model.prototype.save);
+    // console.log(a.remove === mongoose.Model.prototype.remove);
+
+    let a = await Account.findOne({ name: '1' })
+    console.log('save', a.save);
+    // console.log('remove', a.remove);
+
+    console.log('save', mongoose.Model.prototype.save);
+    // console.log('remove', mongoose.Model.prototype.remove);
+
+    console.log(a.save === mongoose.Model.prototype.save);
+    console.log(a.remove === mongoose.Model.prototype.remove);
+    await conn.disconnect()
+}
+
+start()

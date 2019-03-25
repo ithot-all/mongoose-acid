@@ -25,6 +25,10 @@
   },
   "homepage": "https://github.com/dtboy1995/mongoose-acid#readme",
   "dependencies": {
+    "debug": "^4.1.1",
     "mongoose": "^5.2.9"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.2"
   }
 }
