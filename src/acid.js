@@ -1,72 +1,91 @@
-const mongoose = require('mongoose')
-const debug = require('debug')('mongoose-acid')
+const mongoose          = require('mongoose')
+const PromiseWrapper    = require('./promise-wrapper')
+const AsyncFunction     = Object.getPrototypeOf(async function () { }).constructor
+const debug             = require('debug')('acid')
 
-class MTransaction {
+class Acid {
 
     constructor() {
-        this._transactions = []
-        this._results = []
-        this._err
+        this.transactions = []
+        this.results = []
+        this.err
     }
 
     static make () {
-        return new MTransaction()
+        return new Acid()
     }
 
     error (err) {
-        this._err = err
+        this.err = err
         return this
     }
 
     add (transaction) {
-        this._transactions.push(transaction);
-        return this;
+        this.transactions.push(transaction)
+        return this
     }
 
     results () {
-        return this._results;
+        return this.results
     }
 
     async exec () {
-        const session = await mongoose.startSession();
-        session.startTransaction();
+        const session = await mongoose.startSession()
+        session.startTransaction()
+        debug('start a transaction')
         try {
-            for (let i = 0; i < this._transactions.length; i++) {
-                let transaction = this._transactions[i];
-                // is a mongoose query
-                if (mongoose.Query == transaction.constructor) {
-                    transaction.options.session = session;
-                    let result = await transaction;
-                    this._results.push(result);
-                } else {
-                    // is a pre function
-                    let preTransaction = transaction(this._results[i - 1], this._results, session);
-                    if (preTransaction && mongoose.Query == preTransaction.constructor) {
-                        preTransaction.options.session = session;
-                        let result = await preTransaction;
-                        this._results.push(result);
-                    }
-                    // is a promise
-                    else {
-                        if (mongoose.Promise == preTransaction.constructor) {
-                            let result = await preTransaction;
-                            this._results.push(result);
+            for (let i = 0; i < this.transactions.length; i++) {
+                let transaction = this.transactions[i]
+                /* mongoose-query */
+                if (mongoose.Query === transaction.constructor) {
+                    transaction.options.session = session
+                    let result = await transaction
+                    this.results.push(result)
+                }
+                /* promise-wrapper */
+                else if (PromiseWrapper === transaction.constructor) {
+                    transaction.inject(session)
+                    let result = await transaction
+                    this.results.push(result)
+                }
+                /* function async function */
+                else if (Function === transaction.constructor || AsyncFunction === transaction.constructor) {
+                    let preTransaction = await transaction(this.results[i - 1], this.results, session)
+                    if (preTransaction) {
+                        if (mongoose.Query === preTransaction.constructor) {
+                            preTransaction.options.session = session
+                            let result = await preTransaction
+                            this.results.push(result)
+                        } else if (PromiseWrapper === preTransaction.constructor) {
+                            preTransaction.inject(session)
+                            let result = await preTransaction
+                            this.results.push(result)
+                        } else {
+                            this.results.push(null)
                         }
+                    } else {
+                        this.results.push(null)
                     }
                 }
+                /* invalid parameter type */
+                else {
+                    throw new Error(`invalid parameter type: [${transaction.constructor}]`)
+                }
             }
-            await session.commitTransaction();
-            session.endSession();
+            await session.commitTransaction()
+            session.endSession()
+            debug('transaction is successful')
         } catch (err) {
-            await session.abortTransaction();
-            session.endSession();
-            if (this._err) {
-                this._err(err);
+            debug('transaction is failure')
+            await session.abortTransaction()
+            session.endSession()
+            if (this.err) {
+                this.err(err)
             } else {
-                throw err;
+                throw err
             }
         }
     }
 }
 
-module.exports = MTransaction
+module.exports = Acid

@@ -6,7 +6,7 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     name: String, balance: Number
 }));
 
-const ACID = require('./');
+const ACID = require('.');
 
 const TEST_CASES = {
     init: async () => {
@@ -14,6 +14,8 @@ const TEST_CASES = {
         console.log('accounts ready');
     },
     simple: async () => {
+        const uri = 'mongodb://localhost:27111,localhost:27112,localhost:27113/ithot'
+
         const conn = await mongoose.connect(uri, {
             replicaSet: 'app',
             useNewUrlParser: true
