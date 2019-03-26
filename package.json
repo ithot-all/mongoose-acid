@@ -1,7 +1,7 @@
 {
   "name": "mongoose-acid",
   "version": "0.10.0",
-  "description": "a api friendly mongoose transaction tool",
+  "description": "mongoose transaction helper",
   "main": "index.js",
   "scripts": {
     "test": "cross-env DEBUG=acid jest",
