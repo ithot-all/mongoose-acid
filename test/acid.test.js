@@ -3,7 +3,7 @@ const os = require('os')
 const hostname = os.hostname()
 mongoose.set('debug', false)
 const Acid = require('../src/acid')
-const uri = `mongodb://${hostname}:27017,${hostname}:27018,${hostname}:27019/test`
+const uri = os.platform() === 'win32' ? `mongodb://${hostname}:27017,${hostname}:27018,${hostname}:27019/test` : 'mongodb://localhost:27017,localhost:27018,localhost:27019/test'
 let conn
 const Account = mongoose.model('Account', new mongoose.Schema({
     balance: Number
