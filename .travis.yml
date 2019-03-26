@@ -16,7 +16,7 @@ before_script:
   - ${PWD}/mongodb-linux-x86_64-4.0.7/bin/mongod --replSet app --port 27111 --dbpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27111 --logpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27111/mongodb.log --fork
   - ${PWD}/mongodb-linux-x86_64-4.0.7/bin/mongod --replSet app --port 27112 --dbpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27112 --logpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27112/mongodb.log --fork
   - ${PWD}/mongodb-linux-x86_64-4.0.7/bin/mongod --replSet app --port 27113 --dbpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27113 --logpath ${PWD}/mongodb-linux-x86_64-4.0.7/data/mongodb27113/mongodb.log --fork
-  - ${PWD}/mongodb-linux-x86_64-4.0.7/bin/mongo localhost:27111/admin ${PWD}\mongoose-acid\test\mongo.js
+  - ${PWD}/mongodb-linux-x86_64-4.0.7/bin/mongo localhost:27111/admin ${PWD}/test/mongo.js
 
 after_script:
   - pkill mongod
