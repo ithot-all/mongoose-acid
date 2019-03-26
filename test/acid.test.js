@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
+const os = require('os')
+const hostname = os.hostname()
 mongoose.set('debug', false)
 const Acid = require('../src/acid')
-const uri = 'mongodb://localhost:27111,localhost:27112,localhost:27113/ithot'
+const uri = `mongodb://${hostname}:27017,${hostname}:27018,${hostname}:27019/test`
 let conn
 const Account = mongoose.model('Account', new mongoose.Schema({
     balance: Number
@@ -12,7 +14,7 @@ const People = mongoose.model('People', new mongoose.Schema({
 }))
 beforeAll(async () => {
     conn = await mongoose.connect(uri, {
-        replicaSet: 'app',
+        replicaSet: 'rs',
         useNewUrlParser: true
     })
     await Account.deleteMany()
