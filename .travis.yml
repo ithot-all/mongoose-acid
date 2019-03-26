@@ -5,10 +5,11 @@ node_js:
 
 before_install:
   - npm install run-rs -g
-  - run-rs -v 4.0.0
+  - run-rs -v 4.0.0 &
 
 install:
   - npm install
 
 script:
+  - sleep 20
   - npm test
