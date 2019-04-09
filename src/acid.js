@@ -19,4 +19,11 @@ async function Acid (wrapper) {
     }
 }
 
+Acid.middleware = () => {
+    return async (ctx, next) => {
+        ctx.acid = Acid
+        await next()
+    }
+}
+
 module.exports = Acid
