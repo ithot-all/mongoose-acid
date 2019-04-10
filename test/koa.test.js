@@ -12,11 +12,11 @@ app.use(async (ctx) => {
     }
 })
 
-test('koa middleware', async () => {
-    await request(app.listen())
+test('koa middleware', (done) => {
+    request(app.listen())
         .get('/')
         .expect(200, {
             exist: true,
             type: 'function'
-        })
+        }, done)
 })
