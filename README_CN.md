@@ -23,15 +23,18 @@ nodejs >= 7.6 | mongoose >= 5.2 | mongodb >= 4.0
 
 ```javascript
 const Acid = require('mongoose-acid')
-try {
-  await Acid( async (session) => {
+await Acid( async (session) => {
     await People.findOneAndUpdate({ name: 'Acid' },{ $inc: { balance: 30 } },{ session })
     await Account.findOneAndUpdate({ name: 'Blank'},{ $inc: { balance: -30 } },{ session })
     // ... 
-  })
-} catch (err){
-
-}
+})
+const app = new Koa()
+app.use(Acid.middleware())
+app.use(async (ctx) => {
+    await ctx.acid(async (session) => {
+      
+    })
+})
 ```
 
 ### 测试
