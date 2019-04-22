@@ -2,6 +2,8 @@ language: node_js
 
 node_js:
   - "8"
+  - "9"
+  - "10"
 
 before_install:
   - npm install run-rs -g
@@ -11,5 +13,5 @@ install:
   - npm install
 
 script:
-  - sleep 20
+  - sleep 15
   - npm test

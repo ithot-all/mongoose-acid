@@ -23,11 +23,11 @@ nodejs >= 7.6 | mongoose >= 5.2 | mongodb >= 4.0
 #### 一般使用
 ```javascript
 const Acid = require('mongoose-acid')
-await Acid( async (session) => {
+await Acid(async function (session) {
+    // 如何你设置了context那么this === context
     await People.findOneAndUpdate({ name: 'Acid' },{ $inc: { balance: 30 } },{ session })
     await Account.findOneAndUpdate({ name: 'Blank'},{ $inc: { balance: -30 } },{ session })
-    // ... 
-})
+}, context)
 ```
 #### 在koa中使用
 ```javascript
@@ -35,8 +35,8 @@ const Acid = require('mongoose-acid')
 const app = new Koa()
 app.use(Acid.middleware())
 app.use(async (ctx) => {
-    await ctx.acid(async (session) => {
-      
+    await ctx.acid(async function(session) {
+      // this === ctx
     })
 })
 ```
