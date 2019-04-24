@@ -61,6 +61,11 @@ app.use(async (ctx) => {
 - `model.save({ session })` 
 - `model.remove({ session })`
 
+### 调试
+```javascript
+Acid.set('debug', true)
+```
+
 ### 注意
 
 - 注意如果model是通过设置了`session`选项的查询返回的那么不用再次设置

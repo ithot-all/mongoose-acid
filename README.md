@@ -62,6 +62,11 @@ app.use(async (ctx) => {
 - `model.save({ session })` 
 - `model.remove({ session })`
 
+### debug
+```javascript
+Acid.set('debug', true)
+```
+
 ### notice
 - Note that if the model is returned by a query with the session option set, you do not need to set it again
 - Note that the first argument to the `Model.create` method must be an array, and the second argument can set the session option
