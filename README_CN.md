@@ -8,6 +8,9 @@
 # mongoose-acid
 :sunglasses: mongoose事务助手
 
+### 提示
+如果您要使用mongodb的多文档事务功能，您的mongodb的版本需要大于4.0，并且您需要一个复制集来让事务工作，在未来的mongodb4.2中，将在分片上支持多文档事务
+
 ### 安装 
 ```
 npm i mongoose-acid -S

@@ -8,6 +8,9 @@
 # mongoose-acid
 :sunglasses: mongoose transaction helper
 
+### prompt
+if you are using mongodb's multi-document transaction capabilities, your version of mongodb needs to be larger than 4.0, and you need a replication set for transactions to work, in future mongodb4.2, multi-document transactions will be supported on sharding
+
 ### install 
 ```
 npm i mongoose-acid -S
