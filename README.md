@@ -9,7 +9,7 @@
 :sunglasses: mongoose transaction helper
 
 ### prompt
-if you are using mongodb's multi-document transaction capabilities, your version of mongodb needs to be larger than 4.0, and you need a replication set for transactions to work, in future mongodb4.2, multi-document transactions will be supported on sharding
+if you are using mongodb's multi-document transaction capabilities, your version of mongodb needs to be larger than 4.0, and you need a replication set for transactions to work, in future mongodb4.2, multi-document transactions will be supported on sharding (redis is recommended for front-end design, such as seckill system, etc., mongodb is not suitable for this kind of scenario even if it USES transactions, it only guarantees data integrity).
 
 ### install 
 ```
@@ -71,6 +71,7 @@ Acid.set('debug', true)
 ```
 
 ### notice
+- The collection cannot be created in a transaction and will report an error, so you need to create the collection before using the `mongoose` and `mongodb` transaction functions
 - Note that if the model is returned by a query with the session option set, you do not need to set it again
 - Note that the first argument to the `Model.create` method must be an array, and the second argument can set the session option
 
