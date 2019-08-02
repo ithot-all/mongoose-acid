@@ -18,9 +18,10 @@ npm i mongoose-acid -S
 
 ### required
 
-```
-nodejs >= 7.6 | mongoose >= 5.2 | mongodb >= 4.0
-```
+- nodejs >= 7.6
+- mongoose >= 5.2
+- mongodb >= 4.0
+
 
 ### usage
 
