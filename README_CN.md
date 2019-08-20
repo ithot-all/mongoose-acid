@@ -4,11 +4,11 @@
 
 [![NPM](https://nodei.co/npm/mongoose-acid.png?compact=true)](https://npmjs.org/package/mongoose-acid)
 
-# mongodb4.2 发布 :tada::tada::tada:
-[发布日志](https://docs.mongodb.com/manual/release-notes/4.2/)
-
 # mongoose-acid
 :sunglasses: mongoose事务助手
+
+### mongodb4.2 发布了
+:tada::tada::tada: [发布日志](https://docs.mongodb.com/manual/release-notes/4.2/)
 
 ### 提示
 如果您要使用mongodb的多文档事务功能，您的mongodb的版本需要大于4.0，并且您需要一个复制集来让事务工作，在mongodb4.2中，在分片上支持多文档事务
