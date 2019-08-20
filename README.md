@@ -5,11 +5,14 @@
 [![NPM](https://nodei.co/npm/mongoose-acid.png?compact=true)](https://npmjs.org/package/mongoose-acid)
 
 
+# mongodb4.2 release :tada::tada::tada:
+[release-notes](https://docs.mongodb.com/manual/release-notes/4.2/)
+
 # mongoose-acid
 :sunglasses: mongoose transaction helper
 
 ### prompt
-if you are using mongodb's multi-document transaction capabilities, your version of mongodb needs to be larger than 4.0, and you need a replication set for transactions to work, in future mongodb4.2, multi-document transactions will be supported on sharding (redis is recommended for front-end design, such as seckill system, etc., mongodb is not suitable for this kind of scenario even if it USES transactions, it only guarantees data integrity).
+if you are using mongodb's multi-document transaction capabilities, your version of mongodb needs to be larger than 4.0, and you need a replication set for transactions to work, in mongodb4.2, multi-document transactions will be supported on sharding 
 
 ### install 
 ```
