@@ -1,6 +1,6 @@
 {
   "name": "mongoose-acid",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "mongoose transaction helper",
   "main": "index.js",
   "scripts": {
