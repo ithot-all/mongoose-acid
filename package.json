@@ -25,8 +25,8 @@
     "url": "https://github.com/dtboy1995/mongoose-acid/issues"
   },
   "homepage": "https://github.com/dtboy1995/mongoose-acid#readme",
-  "dependencies": {
-    "mongoose": "^5.7.0"
+  "peerDependencies": {
+    "mongoose": "5.7.x"
   },
   "devDependencies": {
     "jest": "^24.5.0",
