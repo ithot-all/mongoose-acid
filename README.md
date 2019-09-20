@@ -12,7 +12,7 @@ if you are using mongodb's multi-document transaction capabilities, your version
 
 ### install 
 ```
-npm i mongoose-acid -S
+npm i mongoose-acid mongoose -S
 ``` 
 
 ### required

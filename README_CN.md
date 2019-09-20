@@ -12,7 +12,7 @@
 
 ### 安装 
 ```
-npm i mongoose-acid -S
+npm i mongoose-acid mongoose -S
 ``` 
 
 ### 必须项

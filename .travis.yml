@@ -8,6 +8,7 @@ node_js:
 before_install:
   - npm install run-rs -g
   - run-rs -v 4.0.0 &
+  - npm install mongoose
 
 install:
   - npm install
